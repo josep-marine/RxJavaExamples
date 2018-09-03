@@ -1,6 +1,5 @@
 package marine.josep.rxjavaexamples.view.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,8 +8,7 @@ import android.view.ViewGroup;
 
 import marine.josep.rxjavaexamples.R;
 
-
-public class Option3Fragment extends Fragment {
+public class Option3Fragment extends ExamplesFragment {
 
   public Option3Fragment() {
     // Required empty public constructor
