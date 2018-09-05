@@ -1,4 +1,4 @@
-package marine.josep.rxjavaexamples.model;
+package marine.josep.rxjavaexamples.view.model;
 
 public class Option1Model {
 

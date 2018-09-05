@@ -3,7 +3,7 @@ package marine.josep.rxjavaexamples.dagger;
 
 import dagger.Module;
 import dagger.Provides;
-import marine.josep.rxjavaexamples.model.dataprovider.Option1DataProvider;
+import marine.josep.rxjavaexamples.dataprovider.Option1DataProvider;
 import marine.josep.rxjavaexamples.presenter.Option1Presenter;
 import marine.josep.rxjavaexamples.presenter.impl.Option1PresenterImpl;
 

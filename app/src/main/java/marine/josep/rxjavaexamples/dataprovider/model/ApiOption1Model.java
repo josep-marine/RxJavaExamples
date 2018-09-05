@@ -1,4 +1,4 @@
-package marine.josep.rxjavaexamples.model;
+package marine.josep.rxjavaexamples.dataprovider.model;
 
 public class ApiOption1Model {
 

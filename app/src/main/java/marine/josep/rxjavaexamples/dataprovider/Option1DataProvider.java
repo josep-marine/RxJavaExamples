@@ -1,7 +1,7 @@
-package marine.josep.rxjavaexamples.model.dataprovider;
+package marine.josep.rxjavaexamples.dataprovider;
 
 import io.reactivex.Observable;
-import marine.josep.rxjavaexamples.model.Option1Model;
+import marine.josep.rxjavaexamples.view.model.Option1Model;
 
 public interface Option1DataProvider {
 

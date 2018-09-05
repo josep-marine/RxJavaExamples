@@ -1,7 +1,7 @@
 package marine.josep.rxjavaexamples.presenter;
 
 
-import marine.josep.rxjavaexamples.model.Option1Model;
+import marine.josep.rxjavaexamples.view.model.Option1Model;
 
 public interface Option1Presenter {
 

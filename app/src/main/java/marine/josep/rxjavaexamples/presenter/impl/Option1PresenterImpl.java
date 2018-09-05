@@ -3,8 +3,8 @@ package marine.josep.rxjavaexamples.presenter.impl;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import marine.josep.rxjavaexamples.model.Option1Model;
-import marine.josep.rxjavaexamples.model.dataprovider.Option1DataProvider;
+import marine.josep.rxjavaexamples.view.model.Option1Model;
+import marine.josep.rxjavaexamples.dataprovider.Option1DataProvider;
 import marine.josep.rxjavaexamples.presenter.Option1Presenter;
 
 public class Option1PresenterImpl implements Option1Presenter {
