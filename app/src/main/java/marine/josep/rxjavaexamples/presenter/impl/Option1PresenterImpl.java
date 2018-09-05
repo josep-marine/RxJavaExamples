@@ -1,5 +1,9 @@
 package marine.josep.rxjavaexamples.presenter.impl;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import marine.josep.rxjavaexamples.model.Option1Model;
 import marine.josep.rxjavaexamples.model.dataprovider.Option1DataProvider;
 import marine.josep.rxjavaexamples.presenter.Option1Presenter;
 
@@ -22,9 +26,29 @@ public class Option1PresenterImpl implements Option1Presenter {
   public void loadData() {
 
     if (view != null) {
+
+      dataProvider.loadOption1Data()
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribeWith(new DisposableObserver<Option1Model>() {
+
+        @Override
+        public void onNext(Option1Model option1Model) {
+          view.onLoadData(option1Model);
+          view.hideProgress();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+      });
       view.showProgress();
-      dataProvider.loadOption1Data();
-      //TODO
     }
   }
 
