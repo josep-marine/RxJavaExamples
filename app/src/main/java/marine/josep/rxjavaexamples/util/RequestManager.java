@@ -6,6 +6,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.File;
@@ -27,8 +29,16 @@ public class RequestManager {
     requestQueue.start();
   }
 
-  public void add(StringRequest stringRequest){
+  public void add(StringRequest stringRequest) {
     requestQueue.add(stringRequest);
+  }
+
+  public void add(JsonObjectRequest jsonObjectRequest) {
+    requestQueue.add(jsonObjectRequest);
+  }
+
+  public void add(JsonArrayRequest jsonArrayRequest) {
+    requestQueue.add(jsonArrayRequest);
   }
 
 }

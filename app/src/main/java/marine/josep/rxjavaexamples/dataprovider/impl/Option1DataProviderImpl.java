@@ -1,22 +1,21 @@
 package marine.josep.rxjavaexamples.dataprovider.impl;
 
 
-import android.util.Log;
-
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.RequestFuture;
+
+import org.json.JSONArray;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import marine.josep.rxjavaexamples.dataprovider.Option1DataProvider;
 import marine.josep.rxjavaexamples.dataprovider.model.ApiOption1Model;
 import marine.josep.rxjavaexamples.util.RequestManager;
 import marine.josep.rxjavaexamples.view.model.Option1Model;
-import marine.josep.rxjavaexamples.dataprovider.Option1DataProvider;
 
 public class Option1DataProviderImpl implements Option1DataProvider {
 
@@ -32,34 +31,25 @@ public class Option1DataProviderImpl implements Option1DataProvider {
     return Observable.create(new ObservableOnSubscribe<ApiOption1Model>() {
 
       @Override
-      public void subscribe(final ObservableEmitter<ApiOption1Model> emitter) throws Exception {
+      public void subscribe(ObservableEmitter<ApiOption1Model> emitter) throws Exception {
 
         try {
 
-          String url ="https://jsonplaceholder.typicode.com/posts";
+          String url = "https://jsonplaceholder.typicode.com/posts";
 
-          StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                  new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                      Log.e("Test:", response);
+          RequestFuture<JSONArray> futureRequest = RequestFuture.newFuture();
 
-                      ApiOption1Model apiOption1Model = new ApiOption1Model();
-                      apiOption1Model.setRawData("data");
+          JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, new JSONArray(), futureRequest, futureRequest);
 
-                      emitter.onNext(apiOption1Model);
 
-                    }
-                  },
-                  new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                      Log.e("Test:", error.toString());
+          requestManager.add(jsonRequest);
+          JSONArray jsonArray = futureRequest.get();
 
-                    }
-                  });
+          ApiOption1Model apiOption1Model = new ApiOption1Model();
+          apiOption1Model.setRawData(simpleTransform(jsonArray));
 
-          requestManager.add(stringRequest);
+          emitter.onNext(apiOption1Model);
+
 
         } catch (Exception e) {
           emitter.onError(e);
@@ -73,7 +63,7 @@ public class Option1DataProviderImpl implements Option1DataProvider {
       @Override
       public boolean test(ApiOption1Model apiOption1Model) throws Exception {
 
-        if(apiOption1Model.getRawData()!=null && apiOption1Model.getRawData().equalsIgnoreCase("data")){
+        if (apiOption1Model.getRawData() != null && apiOption1Model.getRawData().equalsIgnoreCase("data")) {
           return true;
         }
         return false;
@@ -91,6 +81,10 @@ public class Option1DataProviderImpl implements Option1DataProvider {
 
     });
 
+  }
+
+  private String simpleTransform(JSONArray jsonArray) {
+    return "data";
   }
 
 }

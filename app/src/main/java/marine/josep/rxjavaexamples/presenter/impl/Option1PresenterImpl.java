@@ -35,7 +35,7 @@ public class Option1PresenterImpl implements Option1Presenter {
         @Override
         public void onNext(Option1Model option1Model) {
           view.onLoadData(option1Model);
-          view.hideProgress();
+          //view.hideProgress();
         }
 
         @Override
@@ -45,6 +45,7 @@ public class Option1PresenterImpl implements Option1Presenter {
 
         @Override
         public void onComplete() {
+          view.hideProgress();
 
         }
       });

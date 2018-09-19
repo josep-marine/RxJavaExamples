@@ -4,7 +4,7 @@
   <color name="colorPrimaryDark">#303F9F</color>
   <color name="colorAccent">#FF4081</color>
 
-  <color name="option1_background">#975569</color>
-  <color name="option2_background">#555e97</color>
-  <color name="option3_background">#599755</color>
+  <color name="option1_background">#22975569</color>
+  <color name="option2_background">#22555e97</color>
+  <color name="option3_background">#22599755</color>
 </resources>
