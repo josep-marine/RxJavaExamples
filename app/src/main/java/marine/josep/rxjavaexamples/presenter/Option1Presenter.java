@@ -1,7 +1,7 @@
 package marine.josep.rxjavaexamples.presenter;
 
 
-import marine.josep.rxjavaexamples.view.model.Option1Model;
+import marine.josep.rxjavaexamples.view.model.PeopleResultModel;
 
 public interface Option1Presenter {
 
@@ -10,7 +10,7 @@ public interface Option1Presenter {
   void loadData();
 
   interface View {
-    void onLoadData(Option1Model option1Model);
+    void onLoadData(PeopleResultModel peopleResultModel);
 
     void showProgress();
 

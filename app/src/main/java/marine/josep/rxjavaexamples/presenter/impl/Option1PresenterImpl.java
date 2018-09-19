@@ -3,9 +3,10 @@ package marine.josep.rxjavaexamples.presenter.impl;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import marine.josep.rxjavaexamples.view.model.Option1Model;
+import marine.josep.rxjavaexamples.view.model.PeopleModel;
 import marine.josep.rxjavaexamples.dataprovider.Option1DataProvider;
 import marine.josep.rxjavaexamples.presenter.Option1Presenter;
+import marine.josep.rxjavaexamples.view.model.PeopleResultModel;
 
 public class Option1PresenterImpl implements Option1Presenter {
 
@@ -27,15 +28,15 @@ public class Option1PresenterImpl implements Option1Presenter {
 
     if (view != null) {
 
-      dataProvider.loadOption1Data()
+      dataProvider.loadPeople()
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
-              .subscribeWith(new DisposableObserver<Option1Model>() {
+              .subscribeWith(new DisposableObserver<PeopleResultModel>() {
 
         @Override
-        public void onNext(Option1Model option1Model) {
-          view.onLoadData(option1Model);
-          //view.hideProgress();
+        public void onNext(PeopleResultModel peopleResultModel) {
+          view.onLoadData(peopleResultModel);
+          view.hideProgress();
         }
 
         @Override
@@ -45,7 +46,6 @@ public class Option1PresenterImpl implements Option1Presenter {
 
         @Override
         public void onComplete() {
-          view.hideProgress();
 
         }
       });

@@ -9,8 +9,8 @@ import android.widget.ProgressBar;
 import javax.inject.Inject;
 
 import marine.josep.rxjavaexamples.R;
-import marine.josep.rxjavaexamples.view.model.Option1Model;
 import marine.josep.rxjavaexamples.presenter.Option1Presenter;
+import marine.josep.rxjavaexamples.view.model.PeopleResultModel;
 
 public class Option1Fragment extends ExamplesFragment implements Option1Presenter.View {
 
@@ -47,7 +47,7 @@ public class Option1Fragment extends ExamplesFragment implements Option1Presente
   }
 
   @Override
-  public void onLoadData(Option1Model option1Model) {
+  public void onLoadData(PeopleResultModel peopleResultModel) {
 
   }
 

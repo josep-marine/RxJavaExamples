@@ -2,10 +2,11 @@ package marine.josep.rxjavaexamples.dataprovider.impl;
 
 
 import com.android.volley.Request;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -13,9 +14,9 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import marine.josep.rxjavaexamples.dataprovider.Option1DataProvider;
-import marine.josep.rxjavaexamples.dataprovider.model.ApiOption1Model;
+import marine.josep.rxjavaexamples.dataprovider.model.ApiPeopleResultModel;
 import marine.josep.rxjavaexamples.util.RequestManager;
-import marine.josep.rxjavaexamples.view.model.Option1Model;
+import marine.josep.rxjavaexamples.view.model.PeopleResultModel;
 
 public class Option1DataProviderImpl implements Option1DataProvider {
 
@@ -26,30 +27,27 @@ public class Option1DataProviderImpl implements Option1DataProvider {
   }
 
   @Override
-  public Observable<Option1Model> loadOption1Data() {
+  public Observable<PeopleResultModel> loadPeople() {
 
-    return Observable.create(new ObservableOnSubscribe<ApiOption1Model>() {
+    return Observable.create(new ObservableOnSubscribe<ApiPeopleResultModel>() {
 
       @Override
-      public void subscribe(ObservableEmitter<ApiOption1Model> emitter) throws Exception {
+      public void subscribe(ObservableEmitter<ApiPeopleResultModel> emitter) throws Exception {
 
         try {
 
-          String url = "https://jsonplaceholder.typicode.com/posts";
+          String url = "https://swapi.co/api/people";
 
-          RequestFuture<JSONArray> futureRequest = RequestFuture.newFuture();
+          RequestFuture<String> futureRequest = RequestFuture.newFuture();
 
-          JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, new JSONArray(), futureRequest, futureRequest);
+          StringRequest stringRequest = new StringRequest(Request.Method.GET, url, futureRequest, futureRequest);
 
+          requestManager.add(stringRequest);
+          String jsonString = futureRequest.get();
 
-          requestManager.add(jsonRequest);
-          JSONArray jsonArray = futureRequest.get();
+          ApiPeopleResultModel apiPeopleResultModel = new Gson().fromJson(jsonString, ApiPeopleResultModel.class);
 
-          ApiOption1Model apiOption1Model = new ApiOption1Model();
-          apiOption1Model.setRawData(simpleTransform(jsonArray));
-
-          emitter.onNext(apiOption1Model);
-
+          emitter.onNext(apiPeopleResultModel);
 
         } catch (Exception e) {
           emitter.onError(e);
@@ -58,32 +56,28 @@ public class Option1DataProviderImpl implements Option1DataProvider {
         }
       }
 
-    }).filter(new Predicate<ApiOption1Model>() {
+    }).filter(new Predicate<ApiPeopleResultModel>() {
 
       @Override
-      public boolean test(ApiOption1Model apiOption1Model) throws Exception {
+      public boolean test(ApiPeopleResultModel apiPeopleResultModel) throws Exception {
 
-        if (apiOption1Model.getRawData() != null && apiOption1Model.getRawData().equalsIgnoreCase("data")) {
+        if (true) {
           return true;
         }
         return false;
       }
-    }).map(new Function<ApiOption1Model, Option1Model>() {
+    }).map(new Function<ApiPeopleResultModel, PeopleResultModel>() {
 
       @Override
-      public Option1Model apply(ApiOption1Model apiOption1Model) throws Exception {
-
-        Option1Model option1Model = new Option1Model();
-        option1Model.setData(apiOption1Model.getRawData());
-
-        return option1Model;
+      public PeopleResultModel apply(ApiPeopleResultModel apiPeopleResultModel) throws Exception {
+        return PeopleResultModel.map(apiPeopleResultModel);
       }
 
     });
 
   }
 
-  private String simpleTransform(JSONArray jsonArray) {
+  private String simpleTransform(JSONObject jsonObject) {
     return "data";
   }
 
