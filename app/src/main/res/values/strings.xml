@@ -7,4 +7,21 @@
 
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
+
+  <string name="month_1">enero</string>
+  <string name="month_2">febrero</string>
+  <string name="month_3">marzo</string>
+  <string name="month_4">abril</string>
+  <string name="month_5">mayo</string>
+  <string name="month_6">junio</string>
+  <string name="month_7">julio</string>
+  <string name="month_8">agosto</string>
+  <string name="month_9">setiembre</string>
+  <string name="month_10">octubre</string>
+  <string name="month_11">noviembre</string>
+  <string name="month_12">diciembre</string>
+
+
+
+
 </resources>

@@ -23,13 +23,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
       switch (item.getItemId()) {
-        case R.id.navigation_home:
+        case R.id.option_1:
           loadFragment(Option1Fragment.newInstance());
           return true;
-        case R.id.navigation_dashboard:
+        case R.id.option_2:
           loadFragment(Option2Fragment.newInstance());
           return true;
-        case R.id.navigation_notifications:
+        case R.id.option_3:
           loadFragment(Option3Fragment.newInstance());
           return true;
       }
@@ -44,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
     navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-    loadFragment(Option1Fragment.newInstance());
+    //SELECTE OPTION 2
+    navigation.setSelectedItemId(R.id.option_2);
+    loadFragment(Option2Fragment.newInstance());
+
   }
 
   private void loadFragment(Fragment fragment) {
