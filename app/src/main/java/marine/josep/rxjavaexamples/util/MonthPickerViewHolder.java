@@ -21,8 +21,8 @@ public class MonthPickerViewHolder extends RecyclerView.ViewHolder {
     monthName = itemView.findViewById(R.id.month_picker_item_name);
   }
 
-  public void bindView(Context context, final MonthsModel monthsModel) {
-    monthName.setText(context.getString(monthsModel.getDescId()));
+  public void bindView(Context context, final MonthPickerModel monthPickerModel) {
+    monthName.setText(context.getString(monthPickerModel.getDescId()));
   }
 
   public void isCentered(boolean isCentered,int position){

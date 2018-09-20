@@ -2,6 +2,7 @@ package marine.josep.rxjavaexamples.util;
 
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +15,24 @@ import marine.josep.rxjavaexamples.R;
 
 public class MonthPickerAdapter extends RecyclerView.Adapter<MonthPickerViewHolder> {
 
-  private List<MonthsModel> monthsModelList = new ArrayList<>();
-  private MonthPickerClickListener monthPickerClickListener;
+  private List<MonthPickerModel> monthPickerModelList = new ArrayList<>();
+  private MonthPickerRecyclerView monthPickerRecyclerView;
   private Context context;
   private int selectedPosition;
 
-  public MonthPickerAdapter(Context context, List<MonthsModel> monthsModelList, MonthPickerClickListener monthPickerClickListener) {
-    this.monthsModelList.addAll(monthsModelList);
-    this.monthPickerClickListener = monthPickerClickListener;
+  public MonthPickerAdapter(Context context,
+                            List<MonthPickerModel> monthPickerModelList,
+                            MonthPickerRecyclerView monthPickerRecyclerView) {
+
+    this.monthPickerModelList.addAll(monthPickerModelList);
+    this.monthPickerRecyclerView = monthPickerRecyclerView;
     this.context = context;
+    setupMonthPickerRecyclerView();
+  }
+
+  private void setupMonthPickerRecyclerView(){
+    monthPickerRecyclerView.setAdapter(this);
+    monthPickerRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
   }
 
   @Override
@@ -31,13 +41,14 @@ public class MonthPickerAdapter extends RecyclerView.Adapter<MonthPickerViewHold
     itemView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        monthPickerClickListener.onClick(itemView);
+        int position = monthPickerRecyclerView.getChildLayoutPosition(itemView);
+        monthPickerRecyclerView.moveToMonth(position);
       }
     });
     return new MonthPickerViewHolder(itemView, new CenteredItemListener() {
       @Override
       public void isCentered(boolean isCentered, int position) {
-        if(isCentered){
+        if (isCentered) {
           selectedPosition = position;
         }
       }
@@ -46,23 +57,26 @@ public class MonthPickerAdapter extends RecyclerView.Adapter<MonthPickerViewHold
 
   @Override
   public void onBindViewHolder(MonthPickerViewHolder holder, int position) {
-    holder.bindView(context, monthsModelList.get(position));
-  }
-
-  public interface MonthPickerClickListener {
-    void onClick(View itemView);
+    holder.bindView(context, monthPickerModelList.get(position));
   }
 
   @Override
   public int getItemCount() {
-    return monthsModelList.size();
+    return monthPickerModelList.size();
   }
 
   public int getSelectedPosition() {
     return selectedPosition;
   }
 
-  public interface CenteredItemListener{
+  public MonthPickerModel getMonth(int position){
+    if(monthPickerModelList!=null && monthPickerModelList.size()>position){
+      return monthPickerModelList.get(position);
+    }
+    return null;
+  }
+
+  public interface CenteredItemListener {
     void isCentered(boolean isCentered, int position);
   }
 

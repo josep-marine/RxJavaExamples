@@ -7,13 +7,13 @@ import java.util.List;
 
 import marine.josep.rxjavaexamples.R;
 
-public class MonthsModel {
+public class MonthPickerModel {
 
   private int month;
   private int year;
   private int descId;
 
-  private MonthsModel(int month, int year, int descId) {
+  private MonthPickerModel(int month, int year, int descId) {
     this.descId = descId;
     this.month = month;
     this.year = year;
@@ -34,14 +34,14 @@ public class MonthsModel {
           {12, R.string.month_12},
   };
 
-  public static List<MonthsModel> getMonths(Calendar startDate, int numberOfMonths) {
+  public static List<MonthPickerModel> getMonths(Calendar startDate, int numberOfMonths) {
     int startMonth = startDate.get(Calendar.MONTH);
     int startYear = startDate.get(Calendar.YEAR);
-    List<MonthsModel> monthsModels = new ArrayList<>();
-    while (monthsModels.size() < numberOfMonths) {
-      MonthsModel monthsModel = new MonthsModel(natutalMonths[startMonth - 1][0], startYear, natutalMonths[startMonth - 1][1]);
-      monthsModel.year = startYear;
-      monthsModels.add(monthsModel);
+    List<MonthPickerModel> monthPickerModels = new ArrayList<>();
+    while (monthPickerModels.size() < numberOfMonths) {
+      MonthPickerModel monthPickerModel = new MonthPickerModel(natutalMonths[startMonth - 1][0], startYear, natutalMonths[startMonth - 1][1]);
+      monthPickerModel.year = startYear;
+      monthPickerModels.add(monthPickerModel);
       if (startMonth > 1) {
         startMonth = --startMonth;
       } else {
@@ -49,8 +49,8 @@ public class MonthsModel {
         startMonth = 12;
       }
     }
-    Collections.reverse(monthsModels);
-    return monthsModels;
+    Collections.reverse(monthPickerModels);
+    return monthPickerModels;
   }
 
   public int getMonth() {
