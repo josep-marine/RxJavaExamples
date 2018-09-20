@@ -2,6 +2,7 @@ package marine.josep.rxjavaexamples.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import marine.josep.rxjavaexamples.R;
@@ -48,6 +49,7 @@ public class MonthsModel {
         startMonth = 12;
       }
     }
+    Collections.reverse(monthsModels);
     return monthsModels;
   }
 

@@ -17,6 +17,7 @@ public class MonthPickerAdapter extends RecyclerView.Adapter<MonthPickerViewHold
   private List<MonthsModel> monthsModelList = new ArrayList<>();
   private MonthPickerClickListener monthPickerClickListener;
   private Context context;
+  private int selectedPosition;
 
   public MonthPickerAdapter(Context context, List<MonthsModel> monthsModelList, MonthPickerClickListener monthPickerClickListener) {
     this.monthsModelList.addAll(monthsModelList);
@@ -33,7 +34,14 @@ public class MonthPickerAdapter extends RecyclerView.Adapter<MonthPickerViewHold
         monthPickerClickListener.onClick(itemView);
       }
     });
-    return new MonthPickerViewHolder(itemView);
+    return new MonthPickerViewHolder(itemView, new CenteredItemListener() {
+      @Override
+      public void isCentered(boolean isCentered, int position) {
+        if(isCentered){
+          selectedPosition = position;
+        }
+      }
+    });
   }
 
   @Override
@@ -49,4 +57,13 @@ public class MonthPickerAdapter extends RecyclerView.Adapter<MonthPickerViewHold
   public int getItemCount() {
     return monthsModelList.size();
   }
+
+  public int getSelectedPosition() {
+    return selectedPosition;
+  }
+
+  public interface CenteredItemListener{
+    void isCentered(boolean isCentered, int position);
+  }
+
 }

@@ -10,9 +10,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,8 +23,10 @@ import java.util.List;
 
 import marine.josep.rxjavaexamples.R;
 import marine.josep.rxjavaexamples.util.MonthPickerAdapter;
+import marine.josep.rxjavaexamples.util.MonthPickerViewHolder;
 import marine.josep.rxjavaexamples.util.MonthsModel;
 import marine.josep.rxjavaexamples.util.ScreenUtils;
+import marine.josep.rxjavaexamples.util.SwipeTouchListener;
 
 
 public class Option2Fragment extends ExamplesFragment {
@@ -56,6 +60,7 @@ public class Option2Fragment extends ExamplesFragment {
     view = inflater.inflate(R.layout.fragment_option2, container, false);
     bindViews(view);
     setupMonthsPicker();
+    setupGraphicLayer();
     return view;
   }
 
@@ -65,6 +70,29 @@ public class Option2Fragment extends ExamplesFragment {
     graphicLayoutText = view.findViewById(R.id.months_picker_graphic_test);
   }
 
+  private void setupGraphicLayer(){
+    graphicLayout.setOnTouchListener(new SwipeTouchListener(new SwipeTouchListener.LeftRightListener() {
+      @Override
+      public void onSwipe(int direction) {
+        int actualPosition = monthPickerAdapter.getSelectedPosition();
+        if(direction == SwipeTouchListener.TO_LEFT){
+
+          Log.d("TEST ", "TO_LEFT");
+
+          if(actualPosition<monthsModels.size()){
+            monthPickerRecyclerView.getLayoutManager().smoothScrollToPosition(monthPickerRecyclerView,null,++actualPosition);
+          }
+        }else if(direction == SwipeTouchListener.TO_RIGHT){
+
+          Log.d("TEST ", "TO_RIGHT");
+
+          if(actualPosition>0){
+            monthPickerRecyclerView.getLayoutManager().smoothScrollToPosition(monthPickerRecyclerView,null,--actualPosition);
+          }
+        }
+      }
+    }));
+  }
 
   private void setupMonthsPicker() {
 
@@ -116,7 +144,9 @@ public class Option2Fragment extends ExamplesFragment {
             View child = recyclerView.getChildAt(i);
             if (ScreenUtils.viewIsCentered(recyclerView, child)) {
               position = recyclerView.getChildLayoutPosition(child);
-              break;
+              ((MonthPickerViewHolder) recyclerView.getChildViewHolder(child)).isCentered(true,position);
+            }else{
+              ((MonthPickerViewHolder) recyclerView.getChildViewHolder(child)).isCentered(false,position);
             }
           }
 
