@@ -1,24 +1,40 @@
 package marine.josep.rxjavaexamples.view.fragment;
 
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import marine.josep.rxjavaexamples.R;
+import marine.josep.rxjavaexamples.util.MonthPickerAdapter;
 import marine.josep.rxjavaexamples.util.MonthsModel;
+import marine.josep.rxjavaexamples.util.ScreenUtils;
 
 
 public class Option2Fragment extends ExamplesFragment {
 
   private View view;
+  private RecyclerView monthPickerRecyclerView;
+  private MonthPickerAdapter monthPickerAdapter;
+  private List<MonthsModel> monthsModels = new ArrayList<>();
+  private LinearLayoutCompat graphicLayout;
+  private TextView graphicLayoutText;
 
-  private TextView testText;
+  //private TextView testText;
 
   public Option2Fragment() {
     // Required empty public constructor
@@ -39,28 +55,79 @@ public class Option2Fragment extends ExamplesFragment {
                            Bundle savedInstanceState) {
     view = inflater.inflate(R.layout.fragment_option2, container, false);
     bindViews(view);
-    loadMonth();
+    setupMonthsPicker();
     return view;
   }
 
   private void bindViews(View view) {
-    testText = view.findViewById(R.id.fragment_option2_text_test);
+    monthPickerRecyclerView = view.findViewById(R.id.months_picker);
+    graphicLayout = view.findViewById(R.id.months_picker_graphic);
+    graphicLayoutText = view.findViewById(R.id.months_picker_graphic_test);
   }
 
-  private void loadMonth(){
 
-    Calendar calendar = Calendar.getInstance();
+  private void setupMonthsPicker() {
+
+    final Calendar calendar = Calendar.getInstance();
     calendar.setTime(new Date());
 
-    List<MonthsModel> monthsModels = MonthsModel.getMonths(calendar,13);
-    StringBuilder testToShow = new StringBuilder();
-    for(MonthsModel monthsModel: monthsModels){
-      testToShow.append(getString(monthsModel.getDescId()));
-      testToShow.append(": ");
-      testToShow.append(monthsModel.toString());
-      testToShow.append("\n");
-    }
-    testText.setText(testToShow);
+    monthsModels = MonthsModel.getMonths(calendar, 13);
+
+    monthPickerAdapter = new MonthPickerAdapter(getContext(), monthsModels, new MonthPickerAdapter.MonthPickerClickListener() {
+      @Override
+      public void onClick(View itemView) {
+        int position = monthPickerRecyclerView.getChildLayoutPosition(itemView);
+        monthPickerRecyclerView.smoothScrollToPosition(position);
+      }
+    });
+
+    monthPickerRecyclerView.setAdapter(monthPickerAdapter);
+    monthPickerRecyclerView.setHasFixedSize(true);
+    monthPickerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+
+    //Snapper
+    LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
+    linearSnapHelper.attachToRecyclerView(monthPickerRecyclerView);
+
+    //Padding
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+    int width = displayMetrics.widthPixels;
+    Resources r = getResources();
+    float px = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            40,
+            r.getDisplayMetrics());
+
+    int padding = width / 2 - Math.round(px);
+    monthPickerRecyclerView.setPadding(padding, 0, padding, 0);
+
+    //Selecter
+    monthPickerRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override
+      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+
+        if (newState == (RecyclerView.SCROLL_STATE_IDLE)) {
+
+          int position = -1;
+
+          for (int i = 0; i < recyclerView.getChildCount(); i++) {
+            View child = recyclerView.getChildAt(i);
+            if (ScreenUtils.viewIsCentered(recyclerView, child)) {
+              position = recyclerView.getChildLayoutPosition(child);
+              break;
+            }
+          }
+
+          if (position != -1) {
+            graphicLayoutText.setText((getString(monthsModels.get(position).getDescId()) + "\n" + monthsModels.get(position).toString()));
+          }
+        }
+      }
+
+    });
+
   }
 
 }

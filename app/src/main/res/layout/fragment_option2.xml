@@ -1,15 +1,49 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="@color/option2_background"
   tools:context="marine.josep.rxjavaexamples.view.fragment.Option1Fragment">
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
-    android:id="@+id/fragment_option2_text_test"
+  <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="@string/hello_blank_fragment" />
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/months_picker"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:clipToPadding="false"
+      app:layout_constraintBottom_toTopOf="@+id/months_picker_graphic"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.0" />
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+      android:id="@+id/months_picker_graphic"
+      android:layout_width="match_parent"
+      android:layout_height="300dp"
+      android:layout_marginTop="12dp"
+      android:background="@color/option1_background"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/months_picker">
+
+      <TextView
+        android:id="@+id/months_picker_graphic_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        tools:text="test" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+  </android.support.constraint.ConstraintLayout>
+
 
 </FrameLayout>

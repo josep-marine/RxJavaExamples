@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/container"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:paddingEnd="6dp"
+  android:paddingStart="6dp">
+
+  <TextView
+    android:gravity="center"
+    android:background="@color/option1_background"
+    android:id="@+id/month_picker_item_name"
+    android:layout_width="64dp"
+    android:ellipsize="end"
+    android:maxLines="1"
+    android:layout_height="wrap_content"
+    tools:text="Enero" />
+
+</android.support.constraint.ConstraintLayout>

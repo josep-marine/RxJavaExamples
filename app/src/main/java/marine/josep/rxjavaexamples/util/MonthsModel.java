@@ -8,9 +8,9 @@ import marine.josep.rxjavaexamples.R;
 
 public class MonthsModel {
 
-  int month;
-  int year;
-  int descId;
+  private int month;
+  private int year;
+  private int descId;
 
   private MonthsModel(int month, int year, int descId) {
     this.descId = descId;
@@ -38,7 +38,7 @@ public class MonthsModel {
     int startYear = startDate.get(Calendar.YEAR);
     List<MonthsModel> monthsModels = new ArrayList<>();
     while (monthsModels.size() < numberOfMonths) {
-      MonthsModel monthsModel = new MonthsModel(natutalMonths[startMonth-1][0],startYear,natutalMonths[startMonth-1][1]);
+      MonthsModel monthsModel = new MonthsModel(natutalMonths[startMonth - 1][0], startYear, natutalMonths[startMonth - 1][1]);
       monthsModel.year = startYear;
       monthsModels.add(monthsModel);
       if (startMonth > 1) {
