@@ -19,32 +19,41 @@ public class MonthPickerSwipeTouchListener implements View.OnTouchListener {
   @Override
   public boolean onTouch(View view, MotionEvent motionEvent) {
 
+
     switch (motionEvent.getAction()) {
       case MotionEvent.ACTION_DOWN:
         x1 = motionEvent.getX();
         return true;
-      case MotionEvent.ACTION_UP:
-        x2 = motionEvent.getX();
-        if (x1 > x2) {
-          toLeft();
-        } else if (x2 > x1) {
-          toRight();
-        }
+      case MotionEvent.ACTION_MOVE:
+        sendXMovement(Math.round(x1 - motionEvent.getX()));
+        x1 = motionEvent.getX();
         return true;
+      case MotionEvent.ACTION_UP:
+        finishMovement();
+        return true;
+
     }
     return false;
   }
 
-  private void toLeft(){
+  private void sendXMovement(int distance) {
+    monthPickerRecyclerView.moveScroll(distance);
+  }
+
+  private void finishMovement() {
+    monthPickerRecyclerView.finishMovement();
+  }
+
+  private void toLeft() {
     int actualPosition = monthPickerAdapter.getSelectedPosition();
-    if(actualPosition<monthPickerAdapter.getItemCount()){
+    if (actualPosition < monthPickerAdapter.getItemCount()) {
       monthPickerRecyclerView.moveToMonth(++actualPosition);
     }
   }
 
-  private void toRight(){
+  private void toRight() {
     int actualPosition = monthPickerAdapter.getSelectedPosition();
-    if(actualPosition>0){
+    if (actualPosition > 0) {
       monthPickerRecyclerView.moveToMonth(--actualPosition);
     }
   }
