@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import marine.josep.rxjavaexamples.R;
@@ -53,6 +54,18 @@ public class MonthPickerAdapter extends RecyclerView.Adapter<MonthPickerViewHold
         }
       }
     });
+  }
+
+  public void moveToMonth(Calendar calendar){
+    int year = calendar.get(Calendar.YEAR);
+    int month = calendar.get(Calendar.MONTH);
+    int position = monthPickerModelList.size()-1;
+    for(int i=0;i<monthPickerModelList.size();i++){
+      if(monthPickerModelList.get(i).getMonth()==month && monthPickerModelList.get(i).getYear()==year){
+        position = i;
+      }
+    }
+    monthPickerRecyclerView.moveToMonth(position);
   }
 
   @Override

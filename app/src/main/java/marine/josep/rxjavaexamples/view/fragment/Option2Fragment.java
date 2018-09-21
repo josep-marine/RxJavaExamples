@@ -77,6 +77,8 @@ public class Option2Fragment extends ExamplesFragment {
         graphicLayoutText.setText(getString(monthPickerModel.getDescId())+"\n"+monthPickerModel.toString());
       }
     });
+    
+    monthPickerAdapter.moveToMonth(calendar);
 
   }
 
